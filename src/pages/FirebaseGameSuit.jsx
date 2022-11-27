@@ -2,9 +2,17 @@ import { useEffect, useState } from 'react'
 import { database } from '../firebase'
 import { ref, set } from 'firebase/database'
 import { Link } from 'react-router-dom'
+import { 
+  TwitterShareButton,
+  TwitterIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  WhatsappShareButton
+} from 'react-share'
 import '../assets/css/Style.css';
 
-export default function FirebaseGameSuit(){
+export default function FirebaseGameSuit(props){
   const [userChoice, setUserChoice] = useState(null)
   const [computerChoice, setComputerChoice] = useState(null)
   const [result, setResult] = useState("")
@@ -13,6 +21,7 @@ export default function FirebaseGameSuit(){
   const choices = ['batu', 'kertas', 'gunting']
   const rec = "record"
   const player = "dapet dari login"
+  const url = 'https://github.com/orgs/Game-Binar-Wave-25/dashboard'
 
   const handleClick = (choice, bot) => {
     setId(id+1)
@@ -102,7 +111,15 @@ export default function FirebaseGameSuit(){
             </div>
             </div>
             <div className="text-center option">
-              share - total point : {point} - <Link to='/'>
+            <FacebookShareButton url={url} hashtag='#game'>
+              <FacebookIcon size={32} round={true} />
+            </FacebookShareButton>
+            <TwitterShareButton url={url} hashtag='#game'>
+              <TwitterIcon size={32} round={true} />
+            </TwitterShareButton>
+            <WhatsappShareButton url={url} hashtag='#game'>
+              <WhatsappIcon size={32} round={true} />
+            </WhatsappShareButton> - total point : {point} - <Link to='/'>
                 <button>Home</button>
               </Link> 
               {result && <h1>hasil pertandingan {result}</h1>}
