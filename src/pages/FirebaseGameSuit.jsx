@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { database } from '../firebase'
 import { ref, set } from 'firebase/database'
+import { Link } from 'react-router-dom'
 import '../assets/css/Style.css';
 
 export default function FirebaseGameSuit(){
@@ -10,7 +11,8 @@ export default function FirebaseGameSuit(){
   const [id, setId] = useState(0)
   const [point, setPoint] = useState(0)
   const choices = ['batu', 'kertas', 'gunting']
-  const player = "Player1"
+  const rec = "record"
+  const player = "dapet dari login"
 
   const handleClick = (choice, bot) => {
     setId(id+1)
@@ -60,7 +62,7 @@ export default function FirebaseGameSuit(){
     }
     console.log(userChoice, computerChoice, result);
     if (userChoice !== null) {
-      set(ref(database,`Histories/${player}/${id}`), inputUser)
+      set(ref(database,`Histories/${rec}/${id}`), inputUser)
     }
   },[userChoice, computerChoice, id, result, point])
 
@@ -74,10 +76,10 @@ export default function FirebaseGameSuit(){
                     <img alt='batu' src={require("../assets/img/batu.png")} onClick={() => handleClick('batu',generateComputerChoice())}/>
                 </div>
                 <div className="my-3 option">
-                    <img alt='gunting' src={require("../assets/img/kertas.png")} onClick={() => handleClick('kertas',generateComputerChoice())}/>
+                    <img alt='gunting' src={require("../assets/img/gunting.png")} onClick={() => handleClick('gunting',generateComputerChoice())}/>
                 </div>
                 <div className="my-3 option">
-                    <img alt='kertas' src={require("../assets/img/gunting.png")} onClick={() => handleClick('gunting',generateComputerChoice())}/>
+                    <img alt='kertas' src={require("../assets/img/kertas.png")} onClick={() => handleClick('kertas',generateComputerChoice())}/>
                 </div>
             </div>
             <div className="col d-flex justify-content-center align-items-center">
@@ -92,15 +94,18 @@ export default function FirebaseGameSuit(){
                     <img id="comrock" className="bot" src={require("../assets/img/batu.png")} alt="batu"/>
                 </div>
                 <div className="my-3 option">
-                    <img id="comscissors" className="bot" src={require("../assets/img/kertas.png")} alt="gunting"/>
+                    <img id="comscissors" className="bot" src={require("../assets/img/gunting.png")} alt="gunting"/>
                 </div>
                 <div className="my-3 option">
-                    <img id="compaper" className="bot" src={require("../assets/img/gunting.png")}  alt="kertas"/>
+                    <img id="compaper" className="bot" src={require("../assets/img/kertas.png")}  alt="kertas"/>
                 </div>
             </div>
             </div>
             <div className="text-center option">
-              share - total point - exit - {result}
+              share - total point : {point} - <Link to='/'>
+                <button>Home</button>
+              </Link> 
+              {result && <h1>hasil pertandingan {result}</h1>}
             </div>
       </section>
     </>
