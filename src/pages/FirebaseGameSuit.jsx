@@ -28,7 +28,6 @@ export default function FirebaseGameSuit(props){
   const navigate = useNavigate()
 
   const handleClick = (choice, bot) => {
-    setActive(true)
     setId(id+1)
     Start(choice,bot)
   }
