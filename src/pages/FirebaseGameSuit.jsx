@@ -23,7 +23,6 @@ export default function FirebaseGameSuit(props){
   const rec = "record"
   const player = "dapet dari login"
   const url = 'https://github.com/orgs/Game-Binar-Wave-25/dashboard'
-  const [isActive, setActive] = useState(false)
   const [isUser, setUser] = useState('')
   const [isUserId, setUserId] = useState('')
   const navigate = useNavigate()
@@ -43,7 +42,6 @@ export default function FirebaseGameSuit(props){
       let decode = jwt_decode(storage)
       setUser(decode.email)
       setUserId(decode.user_id)
-      setActive(true)
     }
   }
    
