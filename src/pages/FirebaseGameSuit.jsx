@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { database, authFirebase } from '../config/firebase'
 import { ref, set } from 'firebase/database'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { 
   TwitterShareButton,
   TwitterIcon,
@@ -26,6 +26,7 @@ export default function FirebaseGameSuit(props){
   const [isActive, setActive] = useState(false)
   const [isUser, setUser] = useState('')
   const [isUserId, setUserId] = useState('')
+  const navigate = useNavigate()
 
   const handleClick = (choice, bot) => {
     setActive(true)
@@ -34,14 +35,16 @@ export default function FirebaseGameSuit(props){
   }
   const authenticate = () => {
     let storage = localStorage.getItem("accesstoken")
-    let decode = jwt_decode(storage)
-    setUser(decode.email)
-    setUserId(decode.user_id)
-  }
-
-  const userLogin = () => {
-    let authenticate = localStorage.getItem("accesstoken")
-
+    if (storage === "" || storage === null){
+      console.log(storage);
+      console.log("belum login");
+      navigate('/login')
+    } else {
+      let decode = jwt_decode(storage)
+      setUser(decode.email)
+      setUserId(decode.user_id)
+      setActive(true)
+    }
   }
    
   function generateComputerChoice() {
