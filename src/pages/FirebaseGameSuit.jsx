@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { database } from '../firebase'
+import { database } from '../config/firebase'
 import { ref, set } from 'firebase/database'
 import { Link } from 'react-router-dom'
 import { 
@@ -32,7 +32,15 @@ export default function FirebaseGameSuit(props){
     let randomChoice = choices[Math.floor(Math.random() * choices.length)]
     return randomChoice
   }
-  
+
+  // render() {
+  //   console.log(localStorage.getItem('accesstoken'))
+  //   if(localStorage.getItem('accesstoken') === null) {
+  //       alert ("Please Login or Sign Up")
+  //       window.location.href = '/register'
+  //   }
+  // }
+    
   const Start = (p1,p2) => {
     setUserChoice(p1)
     setComputerChoice(p2)

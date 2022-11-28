@@ -1,6 +1,6 @@
 import React from 'react'
 import { TitleHeadingComponent } from '../components'
-import { database } from '../firebase'
+import { database } from '../config/firebase'
 import { ref, child, get } from 'firebase/database'
 import { useEffect } from 'react'
 import { useState } from 'react'
@@ -62,7 +62,7 @@ export default function FirebaseGameSuitTable(params) {
                 data={data.record}
                 />
             }
-            {/* { JSON.stringify(data)} */}
+            {/* { JSON.stringify(data)} */}  
         </>
     )
 }
