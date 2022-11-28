@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { database, authFirebase } from '../config/firebase'
 import { ref, set } from 'firebase/database'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { 
   TwitterShareButton,
   TwitterIcon,
@@ -21,21 +21,52 @@ export default function FirebaseGameSuit(props){
   const [point, setPoint] = useState(0)
   const choices = ['batu', 'kertas', 'gunting']
   const rec = "record"
-  const player = "dapet dari login"
   const url = 'https://github.com/orgs/Game-Binar-Wave-25/dashboard'
   const [isUser, setUser] = useState('')
   const [isUserId, setUserId] = useState('')
   const navigate = useNavigate()
+  const [isBatu, setBatu] = useState(false);
+  const [isGunting, setGunting] = useState(false);
+  const [isKertas, setKertas] = useState(false);
+  const [botBatu, setBotBatu] = useState(false);
+  const [botGunting, setBotGunting] = useState(false);
+  const [botKertas, setBotKertas] = useState(false);
 
+  function generateComputerChoice() {
+    let randomChoice = choices[Math.floor(Math.random() * choices.length)]
+    return randomChoice
+  }
   const handleClick = (choice, bot) => {
     setId(id+1)
     Start(choice,bot)
   }
+  const seri = (e,a) => {
+    if (e === 'batu' && a === 'batu'){
+      setBatu(true)
+      setGunting(false)
+      setKertas(false)
+      setBotBatu(true)
+      setBotGunting(false)
+      setBotKertas(false)
+    } else if (e === 'gunting' && a === 'gunting'){
+      setBatu(false)
+      setGunting(true)
+      setKertas(false)
+      setBotBatu(false)
+      setBotGunting(true)
+      setBotKertas(false)
+    } else if (e === 'kertas' && a === 'kertas'){
+      setBatu(false)
+      setGunting(false)
+      setKertas(true)
+      setBotBatu(false)
+      setBotGunting(false)
+      setBotKertas(true)
+    }
+  }
   const authenticate = () => {
     let storage = localStorage.getItem("accesstoken")
     if (storage === "" || storage === null){
-      console.log(storage);
-      console.log("belum login");
       navigate('/login')
     } else {
       let decode = jwt_decode(storage)
@@ -43,42 +74,65 @@ export default function FirebaseGameSuit(props){
       setUserId(decode.user_id)
     }
   }
-   
-  function generateComputerChoice() {
-    let randomChoice = choices[Math.floor(Math.random() * choices.length)]
-    return randomChoice
-  }
-
-  // render() {
-  //   console.log(localStorage.getItem('accesstoken'))
-  //   if(localStorage.getItem('accesstoken') === null) {
-  //       alert ("Please Login or Sign Up")
-  //       window.location.href = '/register'
-  //   }
-  // }
-    
   const Start = (p1,p2) => {
     setUserChoice(p1)
     setComputerChoice(p2)
     if (p1 === "batu" && p2 === "gunting") {
       setResult("MENANG")
       setPoint(point+10)
+      setBatu(true)
+      setGunting(false)
+      setKertas(false)
+      setBotBatu(false)
+      setBotGunting(true)
+      setBotKertas(false)
     } else if (p1 === "batu" && p2 === "kertas") {
       setResult("KALAH")
+      setBatu(true)
+      setGunting(false)
+      setKertas(false)
+      setBotBatu(false)
+      setBotGunting(false)
+      setBotKertas(true)
     } else if (p1 === "gunting" && p2 === "kertas") {
       setResult("MENANG")
       setPoint(point+10)
+      setBatu(false)
+      setGunting(true)
+      setKertas(false)
+      setBotBatu(false)
+      setBotGunting(false)
+      setBotKertas(true)
     } else if (p1 === "gunting" && p2 === "batu") {
       setResult("KALAH")
+      setBatu(false)
+      setGunting(true)
+      setKertas(false)
+      setBotBatu(true)
+      setBotGunting(false)
+      setBotKertas(false)
     } else if (p1 === "kertas" && p2 === "batu") {
       setResult("Menang")
+      setBatu(false)
+      setGunting(false)
+      setKertas(true)
+      setBotBatu(true)
+      setBotGunting(false)
+      setBotKertas(false)
     } else if (p1 === "kertas" && p2 === "gunting") {
       setResult("KALAH")
+      setBatu(false)
+      setGunting(false)
+      setKertas(true)
+      setBotBatu(false)
+      setBotGunting(true)
+      setBotKertas(false)
     } else {
+      seri(p1,p2)
       setResult("SERI")
       setPoint(point+5)
     }
-  };
+  }
 
   useEffect(() => {
     authenticate()
@@ -106,13 +160,13 @@ export default function FirebaseGameSuit(props){
             <div className="row text-center">
             <div className="col">
                 <div className="mb-5"><h1>{isUser}</h1></div>
-                <div className="my-3 option">
+                <div className="my-3 option" style={{backgroundColor: isBatu ? 'salmon' : '', color: isBatu ? 'white' : '',}}>
                     <img alt='batu' src={require("../assets/img/batu.png")} onClick={() => handleClick('batu',generateComputerChoice())}/>
                 </div>
-                <div className="my-3 option">
+                <div className="my-3 option" style={{backgroundColor: isGunting ? 'salmon' : '', color: isGunting ? 'white' : '',}}>
                     <img alt='gunting' src={require("../assets/img/gunting.png")} onClick={() => handleClick('gunting',generateComputerChoice())}/>
                 </div>
-                <div className="my-3 option">
+                <div className="my-3 option" style={{backgroundColor: isKertas ? 'salmon' : '', color: isKertas ? 'white' : '',}}>
                     <img alt='kertas' src={require("../assets/img/kertas.png")} onClick={() => handleClick('kertas',generateComputerChoice())}/>
                 </div>
             </div>
@@ -124,13 +178,13 @@ export default function FirebaseGameSuit(props){
             </div>
             <div className="col">
                 <div className="mb-5"><h1>Bot</h1></div>
-                <div className="my-3 option">
+                <div className="my-3 option" style={{backgroundColor: botBatu ? 'salmon' : '', color: botBatu ? 'white' : '',}}>
                     <img id="comrock" className="bot" src={require("../assets/img/batu.png")} alt="batu"/>
                 </div>
-                <div className="my-3 option">
+                <div className="my-3 option" style={{backgroundColor: botGunting ? 'salmon' : '', color: botGunting ? 'white' : '',}}>
                     <img id="comscissors" className="bot" src={require("../assets/img/gunting.png")} alt="gunting"/>
                 </div>
-                <div className="my-3 option">
+                <div className="my-3 option" style={{backgroundColor: botKertas ? 'salmon' : '', color: botKertas ? 'white' : '',}}>
                     <img id="compaper" className="bot" src={require("../assets/img/kertas.png")}  alt="kertas"/>
                 </div>
             </div>
