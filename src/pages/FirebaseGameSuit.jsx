@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { database } from '../config/firebase'
+import { database, authFirebase } from '../config/firebase'
 import { ref, set } from 'firebase/database'
 import { Link } from 'react-router-dom'
 import { 
@@ -11,6 +11,7 @@ import {
   WhatsappShareButton
 } from 'react-share'
 import '../assets/css/Style.css';
+import jwt_decode from "jwt-decode";
 
 export default function FirebaseGameSuit(props){
   const [userChoice, setUserChoice] = useState(null)
@@ -22,10 +23,25 @@ export default function FirebaseGameSuit(props){
   const rec = "record"
   const player = "dapet dari login"
   const url = 'https://github.com/orgs/Game-Binar-Wave-25/dashboard'
+  const [isActive, setActive] = useState(false)
+  const [isUser, setUser] = useState('')
+  const [isUserId, setUserId] = useState('')
 
   const handleClick = (choice, bot) => {
+    setActive(true)
     setId(id+1)
     Start(choice,bot)
+  }
+  const authenticate = () => {
+    let storage = localStorage.getItem("accesstoken")
+    let decode = jwt_decode(storage)
+    setUser(decode.email)
+    setUserId(decode.user_id)
+  }
+
+  const userLogin = () => {
+    let authenticate = localStorage.getItem("accesstoken")
+
   }
    
   function generateComputerChoice() {
@@ -65,9 +81,10 @@ export default function FirebaseGameSuit(props){
   };
 
   useEffect(() => {
+    authenticate()
     const inputUser = {
-      userId:"from id user",
-      name: player,
+      userId: isUserId,
+      email: isUser,
       total_game: id,
       total_point: point,
       game_record: 
@@ -88,7 +105,7 @@ export default function FirebaseGameSuit(props){
     <section className="container">
             <div className="row text-center">
             <div className="col">
-                <div className="mb-5"><h1>Name player</h1></div>
+                <div className="mb-5"><h1>{isUser}</h1></div>
                 <div className="my-3 option">
                     <img alt='batu' src={require("../assets/img/batu.png")} onClick={() => handleClick('batu',generateComputerChoice())}/>
                 </div>

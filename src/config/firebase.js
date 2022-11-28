@@ -19,7 +19,8 @@ const authFirebase = getAuth(app)
 const database = getDatabase(app)
 
 export {
-  database
+  database,
+  authFirebase
 }
 
 export default authFirebase
