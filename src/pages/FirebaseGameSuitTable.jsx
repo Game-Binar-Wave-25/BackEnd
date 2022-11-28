@@ -16,7 +16,7 @@ export default function FirebaseGameSuitTable(params) {
         },
         {
             name: 'Name',
-            selector: row => row.name,
+            selector: row => row.email,
         },
         {
             name: 'Total Game',
@@ -54,15 +54,16 @@ export default function FirebaseGameSuitTable(params) {
     })
     return(
         <>
-            <TitleHeadingComponent title="Data History Player"/>
-            {
+        <div className='container'>
+        <TitleHeadingComponent title="Data History Player"/>
+        {
                 data != null && 
                 <DataTable
                 columns={columns}
                 data={data.record}
                 />
             }
-            {/* { JSON.stringify(data)} */}  
+        </div>
         </>
     )
 }
