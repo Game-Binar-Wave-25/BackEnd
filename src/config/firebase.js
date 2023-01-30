@@ -13,6 +13,7 @@ const firebaseConfig = {
   // measurementId: process.env.REACT_APP_MEASUREMENT_ID
   apiKey: "AIzaSyAkU-MKBPMs6uyE3H8gn71pglqupzAxbEQ",
   authDomain: "challenge-chapter-11-6f462.firebaseapp.com",
+  databaseURL: "https://challenge-chapter-11-6f462-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "challenge-chapter-11-6f462",
   storageBucket: "challenge-chapter-11-6f462.appspot.com",
   messagingSenderId: "559514672557",
