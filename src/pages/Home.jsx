@@ -1,4 +1,4 @@
-import { useState, Component } from 'react';
+import { useState} from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -6,7 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import { dataFeaturedGames } from './gamesData/featureData';
 import { dataNewGames } from './gamesData/newData';
-import imgGirl from '../assets/images/ArenaOfValor.jpg';
+// import imgGirl from '../assets/images/ArenaOfValor.jpg';
 
 
 // import Slider from "react-slick";
